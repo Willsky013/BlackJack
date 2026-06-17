@@ -25,7 +25,7 @@ export function Deck({ count }) {
                     "top-right",
                     "bottom-left",
                     "bottom-right",
-                  ][i]}`}style={{ color: getColor(suit) }}
+                  ][i]}`} style={{ color: getColor(suit) }}
               >
                 {suit}
               </div>

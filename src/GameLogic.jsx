@@ -46,22 +46,27 @@ export function Stand(props) {
 
 export function Deal(props) {
 
-  const newDeck = shuffle(createDeck());
+  props.setPlayerCards([]);
+  props.setDealerCards([]);
+
+  const currentDeck = NewDeck(props);
 
   const playerHand = [
-    newDeck[0],
-    newDeck[2]
+    currentDeck[0],
+    currentDeck[1]
   ];
 
   const dealerHand = [
-    newDeck[1],
-    newDeck[3]
+    currentDeck[2],
+    currentDeck[3]
   ];
 
+  setTimeout(() => {
   props.setPlayerCards(playerHand);
   props.setDealerCards(dealerHand);
+  }, 50);
 
-  props.setDeck(newDeck.slice(4));
+  props.setDeck(currentDeck.slice(4));
 
   props.setGameStarted(true);
   props.setGameOver(false);
@@ -123,4 +128,11 @@ export function IsBlackjack(cards) {
     cards.length === 2 &&
     GetScore(cards) === 21
   );
+}
+function NewDeck(props)
+{
+  if (props.deck.length <= 10)
+    return shuffle(createDeck());
+
+  return props.deck;
 }

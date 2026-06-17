@@ -52,15 +52,10 @@ export default function App() {
         <h2>Dealer</h2>
         <p>{dealerScore}</p>
         <div className="hand">
-          {dealerCards.map((card, i) => (
-            <Card key={i} card={card} />
-          ))}
+          {dealerCards.map((card, i) => (<Card key={i} card={card} index={i} />))}
         </div>
-
         <div className="hand">
-          {playerCards.map((card, i) => (
-            <Card key={i} card={card} />
-          ))}
+          {playerCards.map((card, i) => (<Card key={i} card={card} index={i} />))}
         </div>
 
         <button className="buttons" onClick={() => Deal(gameState)}>Deal</button>
