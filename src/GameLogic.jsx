@@ -46,6 +46,8 @@ export function Stand(props) {
 
 export function Deal(props) {
 
+  props.setRoundCounted(false);
+
   props.setPlayerCards([]);
   props.setDealerCards([]);
 
@@ -62,8 +64,16 @@ export function Deal(props) {
   ];
 
   setTimeout(() => {
-  props.setPlayerCards(playerHand);
-  props.setDealerCards(dealerHand);
+    props.setPlayerCards(playerHand);
+    props.setDealerCards(dealerHand);
+
+    const playerBlackjack = IsBlackjack(playerHand);
+    const dealerBlackjack = IsBlackjack(dealerHand);
+
+    if (playerBlackjack || dealerBlackjack) {
+      props.setGameOver(true);
+      props.setPlayerTurn(false);
+    }
   }, 50);
 
   props.setDeck(currentDeck.slice(4));
@@ -71,14 +81,6 @@ export function Deal(props) {
   props.setGameStarted(true);
   props.setGameOver(false);
   props.setPlayerTurn(true);
-
-  const playerBlackjack = IsBlackjack(playerHand);
-  const dealerBlackjack = IsBlackjack(dealerHand);
-
-  if (playerBlackjack || dealerBlackjack) {
-    props.setGameOver(true);
-    props.setPlayerTurn(false);
-  }
 }
 
 
@@ -102,22 +104,21 @@ export function GetScore(cards) {
 
 export function GetWinner(props) {
 
-  if (!props.gameOver)
-    return "";
+  if (!props.gameOver) return "";
 
   const playerScore = GetScore(props.playerCards);
   const dealerScore = GetScore(props.dealerCards);
 
-  if (playerScore > 21)
+  if (playerScore > 21) 
     return "Dealer Wins";
 
-  if (dealerScore > 21)
+  if (dealerScore > 21) 
     return "Player Wins";
 
-  if (playerScore > dealerScore)
+  if (playerScore > dealerScore) 
     return "Player Wins";
 
-  if (dealerScore > playerScore)
+  if (dealerScore > playerScore) 
     return "Dealer Wins";
 
   return "Push";
@@ -125,10 +126,10 @@ export function GetWinner(props) {
 
 export function IsBlackjack(cards) {
   return (
-    cards.length === 2 &&
-    GetScore(cards) === 21
+    cards.length === 2 && GetScore(cards) === 21
   );
 }
+
 function NewDeck(props)
 {
   if (props.deck.length <= 10)

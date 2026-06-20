@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import {createDeck, Card} from "./Cards.jsx";
 import { Deck, shuffle } from "./Deck.jsx";
@@ -17,6 +17,7 @@ export default function App() {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [playerTurn, setPlayerTurn] = useState(false);
+  const [roundCounted, setRoundCounted] = useState(false);
 
   const [deck, setDeck] = useState(() => shuffle(createDeck()));
 
@@ -25,6 +26,11 @@ export default function App() {
 
   const playerScore = GetScore(playerCards);
   const dealerScore = GetScore(dealerCards);
+
+  const [wins, setwins] = useState(0);
+  const [loses, setloses] = useState(0);
+  const [pushes, setpushes] = useState(0);
+
 
   const gameState = {
   deck,
@@ -38,8 +44,37 @@ export default function App() {
   gameStarted,
   gameOver,
   playerTurn,
-  setPlayerTurn
+  setPlayerTurn,
+  setwins,
+  wins,
+  setloses,
+  loses,
+  setpushes,
+  pushes,
+  roundCounted,
+  setRoundCounted
   };
+
+  const winner = GetWinner(gameState);
+
+useEffect(() => {
+  if (!gameOver || roundCounted) return;
+
+  console.log("Counting winner:", winner);
+
+  if (winner === "Player Wins") {
+    setwins(prev => prev + 1);
+  } 
+  else if (winner === "Dealer Wins") {
+    setloses(prev => prev + 1);
+  } 
+  else if (winner === "Push") {
+    setpushes(prev => prev + 1);
+  }
+
+  setRoundCounted(true);
+
+}, [gameOver, winner, roundCounted]);
 
   return (
     <section id="table">
@@ -68,13 +103,14 @@ export default function App() {
 
         </button>
         <p>{playerScore}</p>
-        <h2>
-        {GetWinner(gameState)}
-        </h2>
+        <h2>{GetWinner(gameState)}</h2>
       </div>
-      <div id="deck-area">
-
+      <div id="score-bord">
+        <h2>Wins: {wins}</h2>
+        <h2>Loses: {loses}</h2>
+        <h2>Pushes: {pushes}</h2>
       </div>
     </section>
   );
 }
+

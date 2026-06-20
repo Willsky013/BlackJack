@@ -100,10 +100,15 @@
   justify-content: center;
 }
 #deck-area {
-  width: 150px;
-  margin: 20% auto auto 5%;
+  width: 120px;
+  margin-top: 25%;
+  margin-left: 10%;
 }
-
+#score-bord {
+  width: 120px;
+  margin-top: 25%;
+  margin-right: 13%;
+}
 
 #game-area {
   flex: 1;
